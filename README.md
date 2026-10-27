@@ -3,10 +3,10 @@ mesin pencari dokumen dengan backend c++
 
 ## progres yang sudah jadi
 - halaman web dasar (html dan css)
-
-## Rencana berikutnya
 - Tokenizer: memecah teks menjadi kata (huruf kecil, tanpa tanda baca)
 - Inverted index: mencatat kata ada di dokumen mana
+  
+## Rencana berikutnya
 - Pencarian interaktif di terminal
 - Membaca dokumen dari file
 - Pencarian beberapa kata
