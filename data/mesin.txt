@@ -1,0 +1,1 @@
+Mesin pencari memakai inverted index

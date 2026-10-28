@@ -4,7 +4,11 @@
 #include <map>
 #include <set>
 #include <cctype>
+#include <fstream>
+#include <sstream>
+#include <filesystem>
 using namespace std;
+namespace fs = std::filesystem;
 
 vector<string> tokenize(string teks) {
     vector<string> hasil;
@@ -60,39 +64,61 @@ set<int> cari(const map<string, set<int>>& indeks, string kata) {
     return ketemu->second;
 }
 
-int main() {
-    vector<string> dokumen = {
-        "Belajar C++ itu seru",
-        "Belajar Python juga seru",
-        "Mesin pencari memakai inverted index"
-    };
+string bacaFile(const fs::path& lokasi) {
+    ifstream file(lokasi);
+    stringstream isi;
+    isi << file.rdbuf();
+    return isi.str();
+}
 
-    map<string, set<int>> indeks = bangunIndeks(dokumen);
-
-    cout << "=== Isi indeks ===" << endl;
-    for (auto pasangan : indeks) {
-        cout << pasangan.first << " ->";
-        for (int id : pasangan.second) {
-            cout << " " << id;
+void muatDokumen(string folder, vector<string>& dokumen, vector<string>& namaFile) {
+    for (const auto& item : fs::directory_iterator(folder)) {
+        if (item.path().extension() == ".txt") {
+            dokumen.push_back(bacaFile(item.path()));
+            namaFile.push_back(item.path().filename().string());
         }
-        cout << endl;
+    }
+}
+
+int main() {
+    vector<string> dokumen;
+    vector<string> namaFile;
+
+    if (!fs::exists("data")) {
+        cout << "Folder 'data' tidak ditemukan." << endl;
+        return 1;
     }
 
-    vector<string> kataUji = {"belajar", "python", "kucing"};
+    muatDokumen("data", dokumen, namaFile);
 
-    for (int i = 0; i < kataUji.size(); i++) {
-        set<int> hasil = cari(indeks, kataUji[i]);
+    if (dokumen.empty()) {
+        cout << "Tidak ada file .txt di folder 'data'." << endl;
+        return 1;
+    }
 
-        cout << endl << "Mencari: " << kataUji[i] << endl;
+    map<string, set<int>> indeks = bangunIndeks(dokumen);
+    cout << dokumen.size() << " dokumen dimuat. Ketik kata, atau 'keluar'." << endl;
+
+    while (true) {
+        cout << endl << "Cari: ";
+        string masukan;
+
+        if (!getline(cin, masukan) || masukan == "keluar") {
+            break;
+        }
+
+        set<int> hasil = cari(indeks, masukan);
 
         if (hasil.empty()) {
             cout << "Tidak ditemukan." << endl;
         } else {
+            cout << hasil.size() << " dokumen ditemukan:" << endl;
             for (int id : hasil) {
-                cout << "- [" << id << "] " << dokumen[id] << endl;
+                cout << "- " << namaFile[id] << endl;
             }
         }
     }
 
+    cout << "Sampai jumpa!" << endl;
     return 0;
 }
