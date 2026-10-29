@@ -3,24 +3,9 @@
 #include <sstream>
 #include <filesystem>
 #include "indeks.h"
+#include "dokumen.h"
 using namespace std;
 namespace fs = std::filesystem;
-
-string bacaFile(const fs::path& lokasi) {
-    ifstream file(lokasi);
-    stringstream isi;
-    isi << file.rdbuf();
-    return isi.str();
-}
-
-void muatDokumen(string folder, vector<string>& dokumen, vector<string>& namaFile) {
-    for (const auto& item : fs::directory_iterator(folder)) {
-        if (item.path().extension() == ".txt") {
-            dokumen.push_back(bacaFile(item.path()));
-            namaFile.push_back(item.path().filename().string());
-        }
-    }
-}
 
 int main() {
     vector<string> dokumen;
