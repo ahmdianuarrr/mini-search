@@ -21,7 +21,33 @@ async function cari() {
     }
 }
 
-function tampilkan(data) {
+function kataKueri(kata){
+    return kata()
+    .tolowerCase
+    .split(/[^a-z0-9]+/)
+    .filter(function (k) { return k !== ""; });
+
+}
+
+function sorot(teks, daftarKata) {
+    const wadah = document.createElement("p");
+    const potongan = teks.split(/([a-zA-Z0-9]+)/);
+
+    for (const bagian of potongan) {
+        if (daftarKata.includes(bagian.toLowerCase())) {
+            const tanda = document.createElement("mark");
+            tanda.textContent = bagian;
+            wadah.appendChild(tanda);
+        } else {
+            wadah.appendChild(document.createTextNode(bagian));
+        }
+    }
+
+    return wadah;
+}
+
+function tampilkan(data, kata) {
+    const daftarKata = KataKueri(kata)
     hasil.textContent = "";
 
     const info = document.createElement("p");
@@ -35,9 +61,8 @@ function tampilkan(data) {
         const judul = document.createElement("strong");
         judul.textContent = item.nama + " (skor " + item.skor + ")";
 
-        const isi = document.createElement("p");
-        isi.textContent = item.cuplikan;
-
+       const isi = sorot(item.cuplikan, daftarKata);
+       
         kartu.appendChild(judul);
         kartu.appendChild(isi);
         hasil.appendChild(kartu);

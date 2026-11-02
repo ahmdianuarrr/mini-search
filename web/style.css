@@ -1,3 +1,110 @@
 body{
     text-align: center;
 }
+:root {
+    --latar: #f6f7f9;
+    --kartu: #ffffff;
+    --teks: #1f2328;
+    --redup: #59636e;
+    --garis: #d8dee4;
+    --aksen: #2563eb;
+}
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --latar: #0f1115;
+        --kartu: #1a1d23;
+        --teks: #e6e8eb;
+        --redup: #9aa4af;
+        --garis: #2d333b;
+        --aksen: #6ea1ff;
+    }
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    padding: 2rem 1rem;
+    font-family: system-ui, sans-serif;
+    background: var(--latar);
+    color: var(--teks);
+}
+
+main {
+    max-width: 640px;
+    margin: 0 auto;
+}
+
+h1 {
+    margin: 0 0 1.5rem;
+    text-align: center;
+    color: var(--aksen);
+}
+
+.pencarian {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 1.25rem;
+}
+
+input {
+    flex: 1;
+    padding: 0.7rem 0.9rem;
+    font-size: 1rem;
+    color: var(--teks);
+    background: var(--kartu);
+    border: 1px solid var(--garis);
+    border-radius: 8px;
+}
+
+input:focus {
+    outline: 2px solid var(--aksen);
+    border-color: transparent;
+}
+
+button {
+    padding: 0.7rem 1.2rem;
+    font-size: 1rem;
+    color: #ffffff;
+    background: var(--aksen);
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+button:hover {
+    opacity: 0.9;
+}
+
+#hasil > p {
+    color: var(--redup);
+    font-size: 0.9rem;
+}
+
+.kartu {
+    margin-bottom: 0.75rem;
+    padding: 0.9rem 1.1rem;
+    background: var(--kartu);
+    border: 1px solid var(--garis);
+    border-radius: 12px;
+}
+
+.kartu strong {
+    color: var(--aksen);
+}
+
+.kartu p {
+    margin: 0.4rem 0 0;
+    line-height: 1.6;
+    color: var(--redup);
+}
+
+mark {
+    padding: 0 2px;
+    color: inherit;
+    background: #ffe066;
+    border-radius: 3px;
+}
